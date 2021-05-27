@@ -1,6 +1,9 @@
 package logging
 
-import "net/http"
+import (
+	"context"
+	"net/http"
+)
 
 type HttpClient struct {
 	client *http.Client
@@ -12,8 +15,8 @@ func NewHttpClient() *HttpClient {
 	}
 }
 
-func (c *HttpClient) Do(r *http.Request) (*http.Response, error) {
-	correlationID := r.Context().Value(CorrelationIdContextKey)
+func (c *HttpClient) Do(clientCtx context.Context, r *http.Request) (*http.Response, error) {
+	correlationID := clientCtx.Value(CorrelationIdContextKey)
 	if correlationID != nil {
 		r.Header.Add(CorrelationIdHeaderName, correlationID.(string))
 	}
