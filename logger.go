@@ -26,5 +26,5 @@ func (l *LogWriter) Log(ctx context.Context, msg ...interface{}) {
 }
 
 func (l *LogWriter) Write(bytes []byte) (int, error) {
-	return fmt.Println(time.Now().Format(time.RFC3339Nano) + " " + string(bytes))
+	return fmt.Print(time.Now().Format("2006-01-02 15:04:05.000000000") + " " + string(bytes))
 }
