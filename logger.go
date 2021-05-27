@@ -18,7 +18,11 @@ func init() {
 }
 
 func (l *LogWriter) Log(ctx context.Context, msg ...interface{}) {
-	log.Println(fmt.Sprintf("[CorrelationID=%v]", ctx.Value(CorrelationIdContextKey)), msg)
+	var correlationId string
+	if ctx != nil {
+		correlationId = ctx.Value(CorrelationIdContextKey).(string)
+	}
+	log.Println(fmt.Sprintf("[CorrelationID=%s]", correlationId), msg)
 }
 
 func (l *LogWriter) Write(bytes []byte) (int, error) {
