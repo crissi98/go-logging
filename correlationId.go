@@ -23,8 +23,7 @@ func (handler *CorrelationIdHandler) ServeHTTP(w http.ResponseWriter, r *http.Re
 	if correlationId == "" {
 		correlationId = uuid.NewString()
 	}
-	r.WithContext(context.WithValue(r.Context(), CorrelationIdContextKey, correlationId))
 	w.Header().Add(CorrelationIdHeaderName, correlationId)
-	handler.Wrapped.ServeHTTP(w, r)
+	handler.Wrapped.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), CorrelationIdContextKey, correlationId)))
 
 }
